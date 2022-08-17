@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const date = require(__dirname + "/date");
+// const date = require(__dirname + "/date");
 
 const app = express();
 
@@ -20,7 +20,15 @@ const Item = mongoose.model("Item", itemsSchema);
 
 app.get("/", function(req, res) {
     
-    const day = date.getDay();
+    const date = new Date();
+
+    const options = {
+        weekday: "long",
+        month: "long",
+        day: "numeric"
+    }
+
+    const day = date.toLocaleDateString("en-US", options);
 
     Item.find({}, function(err, foundItems) {
         res.render("list", {listTitle: day, newListItems: foundItems});
